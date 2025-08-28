@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = { "empleadoId", "proyectoId"
 })
-public class EsuarioProyectoId implements Serializable {
-    public EsuarioProyectoId(Integer id, Integer id2) {
+public class EmpleadoProyectoId implements Serializable {
+    public EmpleadoProyectoId(Integer id, Integer id2) {
     }
 
     private Long empleadoId;
