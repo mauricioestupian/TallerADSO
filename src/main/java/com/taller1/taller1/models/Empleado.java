@@ -47,7 +47,7 @@ public class Empleado {
     private Oficina oficina;
 
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UsuarioProyecto> proyectos = new ArrayList<>();
+    private List<EmpleadoProyecto> proyectos = new ArrayList<>();
 
     /*
      * @ManyToMany(cascade = CascadeType.ALL)

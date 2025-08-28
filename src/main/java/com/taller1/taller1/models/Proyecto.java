@@ -32,6 +32,5 @@ public class Proyecto {
     private Date fechaFin;
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UsuarioProyecto> usuarios = new ArrayList<>();
-
+    private List<EmpleadoProyecto> usuarios = new ArrayList<>();
 }

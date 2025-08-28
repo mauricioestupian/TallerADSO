@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class UsuarioProyecto {
+public class EmpleadoProyecto {
 
     @Embeddable
-    public class UsuarioProyectoId implements Serializable {
+    public class EmpleadoProyectoId implements Serializable {
         private Long empleadoId;
         private Long proyectoId;
 
@@ -26,7 +26,7 @@ public class UsuarioProyecto {
     }
 
     @EmbeddedId
-    private UsuarioProyectoId id = new UsuarioProyectoId();
+    private EmpleadoProyectoId id = new EmpleadoProyectoId();
 
     @ManyToOne
     @MapsId("empleadoId")
