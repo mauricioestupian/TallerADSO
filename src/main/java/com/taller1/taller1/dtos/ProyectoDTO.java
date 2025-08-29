@@ -1,8 +1,10 @@
 package com.taller1.taller1.dtos;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,9 +22,13 @@ public class ProyectoDTO {
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
 
-    @Size(max = 500, message = "La descripción no debe superar los 500 caracteres")
-    private String descripcion;
+    @NotNull(message = "El presupuesto es obligatorio")
+    @Positive(message = "El presupuesto debe ser un valor positivo")
+    private BigDecimal presupuesto;
 
-    // Opcional: lista de empleados asignados
-    private List<EmpleadoProyectoDTO> empleados;
+    @NotNull(message = "La fecha de inicio es obligatoria")
+    private LocalDate fechaInicio;
+
+    @NotNull(message = "La fecha de fin es obligatoria")
+    private LocalDate fechaFin;
 }
