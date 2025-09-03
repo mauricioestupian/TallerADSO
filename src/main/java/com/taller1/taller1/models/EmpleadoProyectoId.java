@@ -5,32 +5,36 @@ import java.io.Serializable;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@Data
+@Data // Genera getters, setters, toString, equals y hashCode automáticamente
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = { "empleadoId", "proyectoId"
-})
 public class EmpleadoProyectoId implements Serializable {
-    public EmpleadoProyectoId(Integer id, Integer id2) {
-    }
 
     private Long empleadoId;
     private Long proyectoId;
-}
 
-/*
- * terminos a estudiar
- * Serializable
- * 
- * @EqualsAndHashCode = equals y hashCode
- * 
- * @EmbeddedId = - Uso de claves compuestas
- * 
- * @MapsId
- * 
- * Uso de Entidad intermedia enriquecida??
- */
+    // Si no hcieramos uso de Lombok, deberiamos implementar equals y hashcode
+    // para que JPA pueda comparar correctamente las claves compuestas
+    // y manejar las entidades de manera adecuada
+    // Lombok genera estos metodos automaticamente
+    /*
+     * @Override
+     * public boolean equals(Object o) {
+     * if (this == o)
+     * return true;
+     * if (!(o instanceof EmpleadoProyectoId))
+     * return false;
+     * EmpleadoProyectoId that = (EmpleadoProyectoId) o;
+     * return Objects.equals(empleadoId, that.empleadoId) &&
+     * Objects.equals(proyectoId, that.proyectoId);
+     * }
+     * 
+     * @Override
+     * public int hashCode() {
+     * return Objects.hash(empleadoId, proyectoId);
+     * }
+     */
+}
