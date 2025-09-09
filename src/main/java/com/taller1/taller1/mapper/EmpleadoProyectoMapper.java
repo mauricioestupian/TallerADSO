@@ -7,6 +7,6 @@ public interface EmpleadoProyectoMapper {
 
     EmpleadoProyecto toEntity(EmpleadoProyectoDTO dto);
 
-    EmpleadoProyectoDTO toDTO(EmpleadoProyecto entity);
+    EmpleadoProyectoDTO toDTO(EmpleadoProyecto empleadoProyecto);
 
 }

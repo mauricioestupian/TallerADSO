@@ -1,5 +1,6 @@
 package com.taller1.taller1.services;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,9 @@ import com.taller1.taller1.dtos.EmpleadoProyectoDTO;
 import com.taller1.taller1.mapper.EmpleadoProyectoMapper;
 import com.taller1.taller1.models.EmpleadoProyecto;
 import com.taller1.taller1.models.EmpleadoProyectoId;
+import com.taller1.taller1.repositoryes.EmpleadoProyectoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
@@ -23,13 +27,20 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
     @Override
     public EmpleadoProyectoDTO asignar(EmpleadoProyectoDTO dto) {
         EmpleadoProyecto ep = mapper.toEntity(dto);
-        EmpleadoProyecto guardado = repository.save(ep); // ← Aquí debe funcionar
+
+        // Validación opcional: evitar duplicados
+        EmpleadoProyectoId id = new EmpleadoProyectoId(dto.getEmpleadoId(), dto.getProyectoId());
+        if (repository.existsById(id)) {
+            throw new IllegalStateException("Ya existe una asignación para ese empleado y proyecto");
+        }
+
+        EmpleadoProyecto guardado = repository.save(ep);
         return mapper.toDTO(guardado);
     }
 
     @Override
     public List<EmpleadoProyectoDTO> listarPorEmpleado(Long empleadoId) {
-        return repository.findByEmpleadoId(empleadoId)
+        return repository.findByEmpleado_Id(empleadoId)
                 .stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
@@ -37,7 +48,7 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
 
     @Override
     public List<EmpleadoProyectoDTO> listarPorProyecto(Long proyectoId) {
-        return repository.findByProyectoId(proyectoId)
+        return repository.findByProyecto_Id(proyectoId)
                 .stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
@@ -46,6 +57,9 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
     @Override
     public void eliminarAsignacion(Long empleadoId, Long proyectoId) {
         EmpleadoProyectoId id = new EmpleadoProyectoId(empleadoId, proyectoId);
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Asignación no encontrada");
+        }
         repository.deleteById(id);
     }
 }
