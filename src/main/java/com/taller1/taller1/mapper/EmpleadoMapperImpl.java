@@ -43,16 +43,16 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
     }
 
     @Override
-    public EmpleadoDTO toDTO(Empleado entity) {
+    public EmpleadoDTO toDTO(Empleado empleadoDto) {
         return new EmpleadoDTO(
-                entity.getId(),
-                entity.getNom(),
-                entity.getApe(),
-                entity.getDir(),
-                entity.getTel(),
-                entity.getCargo().getId(),
-                entity.getCargo().getCargo(),
-                entity.getOficina().getId(),
-                entity.getOficina().getNombre());
+                empleadoDto.getId(),
+                empleadoDto.getNom(),
+                empleadoDto.getApe(),
+                empleadoDto.getDir(),
+                empleadoDto.getTel(),
+                empleadoDto.getCargo().getId(),
+                empleadoDto.getCargo().getCargo(),
+                empleadoDto.getOficina().getId(),
+                empleadoDto.getOficina().getNombre());
     }
 }

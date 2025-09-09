@@ -30,8 +30,10 @@ public class EmpleadoDTO {
   private Long idOficina;
 
   private String nombreOficina; // ← solo para consulta
-} // Esto en el caso de que quieras incluir las relaciones como DTOs anidados y en
-  // la consulta se haga el mapeo correspondiente.
+}
+
+// Esto en el caso de que quieras incluir las relaciones como DTOs anidados y en
+// la consulta se haga el mapeo correspondiente.
 /*
  * @NotNull(message = "La oficina es obligatoria")
  * private OficinaDTO oficina;

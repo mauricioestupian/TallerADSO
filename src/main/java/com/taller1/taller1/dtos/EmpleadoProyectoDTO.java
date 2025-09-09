@@ -15,9 +15,11 @@ public class EmpleadoProyectoDTO {
 
     @NotNull(message = "El ID del empleado no puede ser nulo")
     private Long empleadoId;
+    private String nombreEmpleado;// para leer el nombre del empleado
 
     @NotNull(message = "El ID del proyecto no puede ser nulo")
     private Long proyectoId;
+    private String nombreProyecto; // para leer el nombre del proyecto
 
     @NotNull(message = "La fecha de asignación es obligatoria")
     private LocalDate fechaAsignacion;

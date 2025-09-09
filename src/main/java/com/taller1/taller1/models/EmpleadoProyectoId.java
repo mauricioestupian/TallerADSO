@@ -16,7 +16,7 @@ public class EmpleadoProyectoId implements Serializable {
     private Long empleadoId;
     private Long proyectoId;
 
-    // Si no hcieramos uso de Lombok, deberiamos implementar equals y hashcode
+    // Si no hicieramos uso de Lombok, deberiamos implementar equals y hashcode
     // para que JPA pueda comparar correctamente las claves compuestas
     // y manejar las entidades de manera adecuada
     // Lombok genera estos metodos automaticamente

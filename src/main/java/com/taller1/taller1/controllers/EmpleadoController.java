@@ -2,6 +2,7 @@ package com.taller1.taller1.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taller1.taller1.dtos.EmpleadoDTO;
+import com.taller1.taller1.models.Empleado;
+import com.taller1.taller1.repositoryes.EmpleadoRepository;
 import com.taller1.taller1.services.EmpleadoService;
 
 import jakarta.validation.Valid;
@@ -20,10 +23,18 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/empleados")
 public class EmpleadoController {
 
-    private final EmpleadoService empleadoService;
+    @Autowired
+    private EmpleadoRepository empleadoRepo;
+
+    private EmpleadoService empleadoService;
 
     public EmpleadoController(EmpleadoService empleadoService) {
         this.empleadoService = empleadoService;
+    }
+
+    @GetMapping("/hola")
+    public List<Empleado> hola() {
+        return empleadoRepo.findAll();
     }
 
     // 🔄 Crear o actualizar empleado
