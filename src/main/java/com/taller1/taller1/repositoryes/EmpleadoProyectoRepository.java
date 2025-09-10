@@ -13,6 +13,7 @@ public interface EmpleadoProyectoRepository extends JpaRepository<EmpleadoProyec
     List<EmpleadoProyecto> findByEmpleado_Id(Long empleadoId);
 
     List<EmpleadoProyecto> findByProyecto_Id(Long proyectoId);
+
 }
 
 // -EmpleadoProyecto:

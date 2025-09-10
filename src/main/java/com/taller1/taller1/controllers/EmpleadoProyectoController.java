@@ -33,6 +33,13 @@ public class EmpleadoProyectoController {
         return ResponseEntity.ok(asignado);
     }
 
+    @PostMapping("/varios")
+    public ResponseEntity<List<EmpleadoProyectoDTO>> asignarMasivo(
+            @RequestBody List<EmpleadoProyectoDTO> asignaciones) {
+        List<EmpleadoProyectoDTO> emplePro = service.asignarEmpleados(asignaciones);
+        return ResponseEntity.ok(emplePro);
+    }
+
     // 🔍 Consultar asignaciones por empleado
     @GetMapping("/empleado/{id}")
     public ResponseEntity<List<EmpleadoProyectoDTO>> listarPorEmpleado(@PathVariable Long id) {

@@ -12,4 +12,6 @@ public interface EmpleadoProyectoService {
     List<EmpleadoProyectoDTO> listarPorProyecto(Long proyectoId);
 
     void eliminarAsignacion(Long empleadoId, Long proyectoId);
+
+    List<EmpleadoProyectoDTO> asignarEmpleados(List<EmpleadoProyectoDTO> dtos);
 }

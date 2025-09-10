@@ -1,5 +1,6 @@
 package com.taller1.taller1.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,4 +63,22 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
         }
         repository.deleteById(id);
     }
+
+    @Override
+    public List<EmpleadoProyectoDTO> asignarEmpleados(List<EmpleadoProyectoDTO> lista) {
+        List<EmpleadoProyectoDTO> empleado = new ArrayList<>();
+
+        for (EmpleadoProyectoDTO dto : lista) {
+            try {
+                EmpleadoProyectoDTO asignado = asignar(dto); // Usa el método existente
+                empleado.add(asignado);
+            } catch (Exception e) {
+                // Puedes registrar errores por DTO o devolver un resumen
+                System.out.println("Error al asignar empleado " + dto.getEmpleadoId() + ": " + e.getMessage());
+            }
+        }
+
+        return empleado;
+    }
+
 }
