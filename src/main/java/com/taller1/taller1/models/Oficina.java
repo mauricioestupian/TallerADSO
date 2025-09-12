@@ -5,14 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+@Getter
 public class Oficina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -41,8 +41,8 @@ public class Empleado {
     @JoinColumn(name = "cargo_id", nullable = false, foreignKey = @ForeignKey(name = "FK_empleado_cargo"))
     private Cargo cargo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "oficina_id", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "oficina_id", nullable = true)
     private Oficina oficina;
 
     // un Empleado puede estar en varios proyectos es decir tener muchas

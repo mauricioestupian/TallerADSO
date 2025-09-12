@@ -9,8 +9,6 @@ import com.taller1.taller1.models.Oficina;
 import com.taller1.taller1.repositoryes.CargoRepository;
 import com.taller1.taller1.repositoryes.OficinaRepository;
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Component
 public class EmpleadoMapperImpl implements EmpleadoMapper {
 
@@ -31,13 +29,22 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
         empleado.setDir(dto.getDireccion());
         empleado.setTel(dto.getTelefono());
 
-        Cargo cargo = cargoRepository.findById(dto.getIdCargo())
-                .orElseThrow(() -> new EntityNotFoundException("Cargo no encontrado"));
-        empleado.setCargo(cargo);
+        /*
+         * Cargo cargo = cargoRepository.findById(dto.getIdCargo())
+         * .orElseThrow(() -> new EntityNotFoundException("Cargo no encontrado"));
+         */
+        if (dto.getIdCargo() != null) {
+            Cargo cargo = cargoRepository.findById(dto.getIdCargo()).orElse(null);
+            empleado.setCargo(cargo);
+        }
 
-        Oficina oficina = oficinaRepository.findById(dto.getIdOficina())
-                .orElseThrow(() -> new EntityNotFoundException("Oficina no encontrada"));
-        empleado.setOficina(oficina);
+        // Relación opcional con Oficina
+        if (dto.getIdOficina() != null) {
+            Oficina oficina = oficinaRepository.findById(dto.getIdOficina()).orElse(null);
+            empleado.setOficina(oficina); // ✅ correcto
+        } else {
+            empleado.setOficina(null);
+        }
 
         return empleado;
     }

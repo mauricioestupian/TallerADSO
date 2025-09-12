@@ -21,14 +21,10 @@ public class EmpleadoDTO {
   private String direccion;
   private String telefono;
 
-  @NotNull(message = "El ID del cargo es obligatorio")
-  private byte idCargo;
-
+  private Byte idCargo;
   private String nombreCargo; // ← solo para consulta
 
-  @NotNull(message = "El ID de la oficina es obligatorio")
   private Long idOficina;
-
   private String nombreOficina; // ← solo para consulta
 }
 
