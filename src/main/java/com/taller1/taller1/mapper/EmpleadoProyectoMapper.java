@@ -5,7 +5,7 @@ import com.taller1.taller1.models.EmpleadoProyecto;
 
 public interface EmpleadoProyectoMapper {
 
-    EmpleadoProyecto toEntity(EmpleadoProyectoDTO dto);
+    EmpleadoProyecto toEmpleadoProyecto(EmpleadoProyectoDTO dto);
 
     EmpleadoProyectoDTO toDTO(EmpleadoProyecto empleadoProyecto);
 

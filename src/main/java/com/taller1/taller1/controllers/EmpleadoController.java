@@ -2,19 +2,20 @@ package com.taller1.taller1.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taller1.taller1.dtos.EmpleadoCreateDTO;
 import com.taller1.taller1.dtos.EmpleadoDTO;
-import com.taller1.taller1.models.Empleado;
-import com.taller1.taller1.repositoryes.EmpleadoRepository;
+import com.taller1.taller1.dtos.EmpleadoUpdateDTO;
 import com.taller1.taller1.services.EmpleadoService;
 
 import jakarta.validation.Valid;
@@ -23,42 +24,43 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/empleados")
 public class EmpleadoController {
 
-    @Autowired
-    private EmpleadoRepository empleadoRepo;
-
-    private EmpleadoService empleadoService;
+    private final EmpleadoService empleadoService;
 
     public EmpleadoController(EmpleadoService empleadoService) {
         this.empleadoService = empleadoService;
     }
 
-    @GetMapping("/hola")
-    public List<Empleado> hola() {
-        return empleadoRepo.findAll();
-    }
-
-    // 🔄 Crear o actualizar empleado
+    // Crear empleado
     @PostMapping
-    public ResponseEntity<EmpleadoDTO> guardar(@Valid @RequestBody EmpleadoDTO dto) {
-        EmpleadoDTO guardado = empleadoService.guardar(dto);
-        return ResponseEntity.ok(guardado);
+    public ResponseEntity<EmpleadoDTO> crear(@Valid @RequestBody EmpleadoCreateDTO dto) {
+        EmpleadoDTO creado = empleadoService.guardar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
-    // 🔍 Consultar empleado por ID
+    // Obtener por ID
     @GetMapping("/{id}")
-    public ResponseEntity<EmpleadoDTO> buscarPorId(@PathVariable Long id) {
-        EmpleadoDTO dto = empleadoService.buscarPorId(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<EmpleadoDTO> obtenerPorId(@PathVariable Long id) {
+        EmpleadoDTO empleado = empleadoService.buscarPorId(id);
+        return ResponseEntity.ok(empleado);
     }
 
-    // 📋 Listar todos los empleados
+    // Listar todos
     @GetMapping
     public ResponseEntity<List<EmpleadoDTO>> listarTodos() {
         List<EmpleadoDTO> empleados = empleadoService.listarTodos();
         return ResponseEntity.ok(empleados);
     }
 
-    // ❌ Eliminar empleado por ID
+    // Actualizar empleado
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpleadoDTO> actualizar(@PathVariable Long id,
+            @Valid @RequestBody EmpleadoUpdateDTO dto) {
+        dto.setId(id); // Asegura que el ID del path se use
+        EmpleadoDTO actualizado = empleadoService.actualizarEmpleado(dto);
+        return ResponseEntity.ok(actualizado);
+    }
+
+    // Eliminar empleado
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         empleadoService.eliminar(id);

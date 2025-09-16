@@ -27,7 +27,7 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
 
     @Override
     public EmpleadoProyectoDTO asignar(EmpleadoProyectoDTO dto) {
-        EmpleadoProyecto ep = mapper.toEntity(dto);
+        EmpleadoProyecto ep = mapper.toEmpleadoProyecto(dto);
 
         // Validación opcional: evitar duplicados
         EmpleadoProyectoId id = new EmpleadoProyectoId(dto.getEmpleadoId(), dto.getProyectoId());

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.taller1.taller1.models.Empleado;
 import com.taller1.taller1.models.EmpleadoProyecto;
 import com.taller1.taller1.models.EmpleadoProyectoId;
 
@@ -13,6 +14,8 @@ public interface EmpleadoProyectoRepository extends JpaRepository<EmpleadoProyec
     List<EmpleadoProyecto> findByEmpleado_Id(Long empleadoId);
 
     List<EmpleadoProyecto> findByProyecto_Id(Long proyectoId);
+
+    List<EmpleadoProyecto> findByEmpleado(Empleado empleado);
 
 }
 

@@ -24,7 +24,7 @@ public class EmpleadoProyectoMapperImpl implements EmpleadoProyectoMapper {
     }
 
     @Override
-    public EmpleadoProyecto toEntity(EmpleadoProyectoDTO dto) {
+    public EmpleadoProyecto toEmpleadoProyecto(EmpleadoProyectoDTO dto) {
         Empleado empleado = empleadoRepository.findById(dto.getEmpleadoId())
                 .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
 

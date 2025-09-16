@@ -1,6 +1,5 @@
 package com.taller1.taller1.dtos;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +10,8 @@ import lombok.NoArgsConstructor;
 public class EmpleadoDTO {
 
   private Long id;
-
-  @NotNull
   private String nombre;
-
-  @NotNull
   private String apellido;
-
   private String direccion;
   private String telefono;
 

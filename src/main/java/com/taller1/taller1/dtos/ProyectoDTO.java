@@ -29,6 +29,5 @@ public class ProyectoDTO {
     @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;
 
-    @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fechaFin;
 }
