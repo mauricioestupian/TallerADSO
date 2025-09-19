@@ -12,34 +12,49 @@ import com.taller1.taller1.repositoryes.OficinaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
+//Definimos esta clase como un componente de Spring para que se inyecte automáticamente
 @Component
 public class EmpleadoMapperImpl implements EmpleadoMapper {
 
+    // Repositorios necesarios acceder a entidades relacionadas (Cargo y Oficina)
+    // inyección por constructor; evita el @Autowired
     private final CargoRepository cargoRepository;
     private final OficinaRepository oficinaRepository;
 
+    // Constructor con inyección de dependencias mediante el constructor para
+    // acceder a los repositorios
     public EmpleadoMapperImpl(CargoRepository cargoRepository, OficinaRepository oficinaRepository) {
         this.cargoRepository = cargoRepository;
         this.oficinaRepository = oficinaRepository;
     }
 
+    /**
+     * recibe los datos a modo DTO de creación (EmpleadoCreateDTO) y los pasa a
+     * entidad Empleado.
+     * Este método se usa al registrar un nuevo empleado en el sistema.
+     * Recupera las entidades relacionadas (Cargo y Oficina) desde la base de datos
+     * para evitar errores de Hibernate por referencias transientes.
+     */
     @Override
     public Empleado toEmpleado(EmpleadoCreateDTO dto) {
         if (dto == null)
             return null;
 
+        // Crear nueva instancia de Empleado y asignar campos básicos
         Empleado empleado = new Empleado();
         empleado.setNom(dto.getNombre());
         empleado.setApe(dto.getApellido());
         empleado.setDir(dto.getDireccion());
         empleado.setTel(dto.getTelefono());
 
-        // Cargo obligatorio
+        // Campo obligatorio: se recupera desde el repositorio cargoRepository para que
+        // esté
+        // gestionado por Hibernate
         Cargo cargo = cargoRepository.findById(dto.getIdCargo())
                 .orElseThrow(() -> new EntityNotFoundException("Cargo no encontrado"));
         empleado.setCargo(cargo);
 
-        // Oficina opcional
+        // Oficina es opcional: solo se asigna si el ID está presente
         if (dto.getIdOficina() != null) {
             Oficina oficina = oficinaRepository.findById(dto.getIdOficina())
                     .orElseThrow(() -> new EntityNotFoundException("Oficina no encontrada"));
@@ -49,19 +64,29 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
         return empleado;
     }
 
+    /**
+     * Convierte una entidad Empleado en un DTO de consulta (EmpleadoDTO).
+     * Este método se usa para enviar datos al cliente de forma estructurada y
+     * enriquecida.
+     * Incluye nombres legibles de Cargo y Oficina, además de sus IDs.
+     */
     @Override
     public EmpleadoDTO toDTO(Empleado empleado) {
         if (empleado == null)
             return null;
 
         return new EmpleadoDTO(
-                empleado.getId(),
-                empleado.getNom(),
-                empleado.getApe(),
-                empleado.getDir(),
-                empleado.getTel(),
+                empleado.getId(), // ID del empleado
+                empleado.getNom(), // Nombre
+                empleado.getApe(), // Apellido
+                empleado.getDir(), // Dirección
+                empleado.getTel(), // Teléfono
+
+                // ID y nombre del cargo (si está presente)
                 empleado.getCargo() != null ? empleado.getCargo().getId() : null,
                 empleado.getCargo() != null ? empleado.getCargo().getCargo() : null,
+
+                // ID y nombre de la oficina (si está presente)
                 empleado.getOficina() != null ? empleado.getOficina().getId() : null,
                 empleado.getOficina() != null ? empleado.getOficina().getNombre() : null);
     }
