@@ -40,4 +40,15 @@ public class OficinaController {
         }).collect(Collectors.toList());
     }
 
+    @GetMapping("/oficinasinempleado")
+    public List<OficinaDTO> oficinasSinEmpleadoJPQL() {
+        return oficinaRepo.findOficinasSinEmpleado().stream().map(oficina -> {
+            OficinaDTO dto = new OficinaDTO();
+            dto.setId(oficina.getId());
+            dto.setNombre(oficina.getNombre());
+            dto.setUbicacion(oficina.getUbicacion());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
 }
