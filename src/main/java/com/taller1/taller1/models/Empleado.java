@@ -1,10 +1,12 @@
 package com.taller1.taller1.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "empleado_id")
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -37,17 +40,18 @@ public class Empleado {
 
     private String tel;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cargo_id", nullable = false, foreignKey = @ForeignKey(name = "FK_empleado_cargo"))
     private Cargo cargo;
 
-    @OneToOne
-    @JoinColumn(name = "oficina_id", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oficina_id", foreignKey = @ForeignKey(name = "FK_empleado_oficina"))
     private Oficina oficina;
 
     // un Empleado puede estar en varios proyectos es decir tener muchas
     // asignaciones
-    @OneToMany(mappedBy = "empleado")
-    private List<EmpleadoProyecto> asignaciones;// podemos ver los proyectos a los que esta asignado un empleado
+
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EmpleadoProyecto> asignaciones = new ArrayList<>();
 
 }

@@ -42,16 +42,16 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
 
         // Crear nueva instancia de Empleado y asignar campos básicos
         Empleado empleado = new Empleado();
+
         empleado.setNom(dto.getNombre());
         empleado.setApe(dto.getApellido());
         empleado.setDir(dto.getDireccion());
         empleado.setTel(dto.getTelefono());
 
         // Campo obligatorio: se recupera desde el repositorio cargoRepository para que
-        // esté
-        // gestionado por Hibernate
+        // esté gestionado por Hibernate
         Cargo cargo = cargoRepository.findById(dto.getIdCargo())
-                .orElseThrow(() -> new EntityNotFoundException("Cargo no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Cargo no encontradosssss"));
         empleado.setCargo(cargo);
 
         // Oficina es opcional: solo se asigna si el ID está presente

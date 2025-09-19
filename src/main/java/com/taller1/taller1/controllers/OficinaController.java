@@ -29,4 +29,15 @@ public class OficinaController {
         }).collect(Collectors.toList());
     }
 
+    @GetMapping("/noasignadas")
+    public List<OficinaDTO> oficinasSinEmpleado() {
+        return oficinaRepo.findByEmpleadoIsNull().stream().map(oficina -> {
+            OficinaDTO dto = new OficinaDTO();
+            dto.setId(oficina.getId());
+            dto.setNombre(oficina.getNombre());
+            dto.setUbicacion(oficina.getUbicacion());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
 }

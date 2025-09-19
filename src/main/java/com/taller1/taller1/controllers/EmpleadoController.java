@@ -1,6 +1,7 @@
 package com.taller1.taller1.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,18 @@ public class EmpleadoController {
 
     // Crear empleado
     @PostMapping
-    public ResponseEntity<EmpleadoDTO> crear(@Valid @RequestBody EmpleadoCreateDTO dto) {
-        EmpleadoDTO creado = empleadoService.guardar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+    public ResponseEntity<?> crear(@Valid @RequestBody EmpleadoCreateDTO dto) {
+        try {
+            EmpleadoDTO creado = empleadoService.guardar(dto);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of("mensaje", "Empleado creado exitosamente", "data", creado));
+        } catch (IllegalStateException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al crear el empleado", "detalle", ex.getMessage()));
+        }
     }
 
     // Obtener por ID

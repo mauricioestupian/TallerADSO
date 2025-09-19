@@ -19,7 +19,9 @@ import com.taller1.taller1.repositoryes.EmpleadoProyectoRepository;
 import com.taller1.taller1.repositoryes.EmpleadoRepository;
 import com.taller1.taller1.repositoryes.OficinaRepository;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 
 // Anotación @Service indica que esta clase es un servicio de negocio en Spring "Logica de negocio"
 @Service
@@ -39,6 +41,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     // Repositorio para recuperar la entidad Oficina desde la base de datos.
     private final OficinaRepository oficinaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     // Inyección por constructor: Spring proporciona automáticamente las
     // dependencias necesarias.
@@ -106,17 +111,26 @@ public class EmpleadoServiceImpl implements EmpleadoService {
      * isEmpty se usa para verificar si hay asignaciones antes de intentar
      * borrarlas.
      */
+    @Override
     @Transactional
     public void eliminar(Long id) {
+        // 1. Recuperar el empleado desde la base de datos
         Empleado empleado = empleadoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
 
-        List<EmpleadoProyecto> asignaciones = empleadoProyectoRepository.findByEmpleado(empleado);
-        for (EmpleadoProyecto asignacion : asignaciones) {
-            asignacion.setEmpleado(null); // Rompe la relación
-        }
-        empleadoProyectoRepository.deleteAll(asignaciones);
+        empleado.getAsignaciones().clear(); // ← Aquí va
 
+        // 3. Eliminar asignaciones explícitamente desde el repositorio
+        List<EmpleadoProyecto> asignaciones = empleadoProyectoRepository.findByEmpleado(empleado);
+        if (!asignaciones.isEmpty()) {
+            for (EmpleadoProyecto asignacion : asignaciones) {
+                asignacion.setEmpleado(null);
+                asignacion.setProyecto(null);
+            }
+            empleadoProyectoRepository.deleteAll(asignaciones);
+        }
+
+        // 4. Eliminar el empleado
         empleadoRepository.delete(empleado);
     }
 

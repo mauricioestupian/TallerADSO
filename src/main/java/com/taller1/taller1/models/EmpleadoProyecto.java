@@ -39,6 +39,7 @@ public class EmpleadoProyecto {
      * - Es importante que el Empleado esté gestionado por JPA (recuperado desde el
      * repositorio).
      */
+    // optional=false geenera un inner join
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("empleadoId")
     @JoinColumn(name = "empleado_id", foreignKey = @ForeignKey(name = "FK_empleado_proyecto_empleado"))
