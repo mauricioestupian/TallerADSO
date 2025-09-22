@@ -13,4 +13,6 @@ public interface ProyectoService {
 
     void eliminar(Long id);
 
+    ProyectoDTO actualizar(Long id, ProyectoDTO dto);
+
 }

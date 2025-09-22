@@ -40,10 +40,18 @@ public class EmpleadoController {
                     .body(Map.of("mensaje", "Empleado creado exitosamente", "data", creado));
         } catch (IllegalStateException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", ex.getMessage()));
+                    .body(Map.of("errores1", ex.getMessage()));
         } catch (Exception ex) {
+            String detalle = ex.getMessage();
+            if (detalle != null && detalle.contains("Cosnt_empleado_oficina")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                        "success",
+                        "Error al crear el empleado",
+                        "mensaje", "La oficina ya está asignada a otro empleado"));
+            }
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Error al crear el empleado", "detalle", ex.getMessage()));
+                    .body(Map.of("errores2", "Error3 al crear el empleado", "detalle", ex.getMessage()));
         }
     }
 

@@ -2,7 +2,9 @@ package com.taller1.taller1.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.taller1.taller1.dtos.EmpleadoAsignadoDTO;
 import com.taller1.taller1.dtos.EmpleadoProyectoDTO;
+import com.taller1.taller1.dtos.ProyectoAsignadoDTO;
 import com.taller1.taller1.models.Empleado;
 import com.taller1.taller1.models.EmpleadoProyecto;
 import com.taller1.taller1.models.EmpleadoProyectoId;
@@ -53,4 +55,24 @@ public class EmpleadoProyectoMapperImpl implements EmpleadoProyectoMapper {
                 entity.getFechaAsignacion(),
                 entity.getObservaciones());
     }
+
+    @Override
+    public ProyectoAsignadoDTO toProyectoAsignadoDTO(EmpleadoProyecto entity) {
+        ProyectoAsignadoDTO dto = new ProyectoAsignadoDTO();
+        dto.setNombreProyecto(entity.getProyecto().getNombre());
+        dto.setFechaAsignacion(entity.getFechaAsignacion());
+        dto.setObservaciones(entity.getObservaciones());
+        return dto;
+    }
+
+    @Override
+    public EmpleadoAsignadoDTO toEmpleadoAsignadoDTO(EmpleadoProyecto entity) {
+        EmpleadoAsignadoDTO dto = new EmpleadoAsignadoDTO();
+        dto.setEmpleadoId(entity.getEmpleado().getId());
+        dto.setNombreEmpleado(entity.getEmpleado().getNom());
+        dto.setFechaAsignacion(entity.getFechaAsignacion());
+        dto.setObservaciones(entity.getObservaciones());
+        return dto;
+    }
+
 }

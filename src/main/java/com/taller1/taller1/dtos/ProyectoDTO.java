@@ -22,11 +22,9 @@ public class ProyectoDTO {
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
 
-    @NotNull(message = "El presupuesto es obligatorio")
     @Positive(message = "El presupuesto debe ser un valor positivo")
     private BigDecimal presupuesto;
 
-    @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;
 
     private LocalDate fechaFin;

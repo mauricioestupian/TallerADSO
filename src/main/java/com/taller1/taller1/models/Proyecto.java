@@ -29,13 +29,13 @@ public class Proyecto {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false, precision = 12, scale = 2)
+    @Column(precision = 12, scale = 2)
     private BigDecimal presupuesto;
 
-    @Column(name = "fecha_inicio", nullable = false)
+    @Column(name = "fecha_inicio")
     private LocalDate fechaInicio;
 
-    @Column(name = "fecha_fin", nullable = false)
+    @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
     @OneToMany(mappedBy = "proyecto")

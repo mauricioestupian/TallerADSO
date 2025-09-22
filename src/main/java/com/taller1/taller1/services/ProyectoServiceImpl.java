@@ -47,6 +47,36 @@ public class ProyectoServiceImpl implements ProyectoService {
 
     @Override
     public void eliminar(Long id) {
-        proyectoRepository.deleteById(id);
+        Proyecto proyecto = proyectoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Proyecto con ID " + id + " no encontrado"));
+
+        proyectoRepository.delete(proyecto);
     }
+
+    @Override
+    public ProyectoDTO actualizar(Long id, ProyectoDTO dto) {
+        // Paso 1: verificar existencia
+        Proyecto existente = proyectoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Proyecto no encontrado"));
+
+        // Paso 2: validar fechas del DTO
+        validarFechas(dto);
+
+        // Paso 3: aplicar cambios
+        existente.setNombre(dto.getNombre());
+        existente.setPresupuesto(dto.getPresupuesto());
+        existente.setFechaInicio(dto.getFechaInicio());
+        existente.setFechaFin(dto.getFechaFin());
+
+        Proyecto actualizado = proyectoRepository.save(existente);
+        return proyectoMapper.toProyectoDTO(actualizado);
+    }
+
+    // Validación de fechas de inicio y fin
+    private void validarFechas(ProyectoDTO dto) {
+        if (dto.getFechaFin() != null && dto.getFechaFin().isBefore(dto.getFechaInicio())) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
+    }
+
 }

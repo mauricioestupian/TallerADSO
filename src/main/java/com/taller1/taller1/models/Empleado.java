@@ -15,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name = "empleado",
+        // Define una restricción de unicidad en la columna oficina_id para asegurar que
+        // se mantenga la relación uno a uno entre Empleado y Oficina, adicionalmente al
+        // mapeo con @OneToOne le asignamos un nombre al constraint para facilitar su
+        // identificación en la base de datos. poder usar la restriccion para respuestas
+        // en el controlador
+        uniqueConstraints = {
+                @UniqueConstraint(name = "Cosnt_empleado_oficina", columnNames = { "oficina_id" })
+        })
 public class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
