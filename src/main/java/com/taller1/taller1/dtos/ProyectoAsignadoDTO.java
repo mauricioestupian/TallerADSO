@@ -10,4 +10,6 @@ public class ProyectoAsignadoDTO {
     private String nombreProyecto;
     private LocalDate fechaAsignacion;
     private String observaciones;
+    private String estado; // nuevo campo estado
+
 }

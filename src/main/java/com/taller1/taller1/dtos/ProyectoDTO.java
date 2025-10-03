@@ -28,4 +28,8 @@ public class ProyectoDTO {
     private LocalDate fechaInicio;
 
     private LocalDate fechaFin;
+
+    private String estado;
+    private String descripcion;
+
 }

@@ -16,6 +16,8 @@ public class ProyectoMapperImpl implements ProyectoMapper {
         proyecto.setPresupuesto(dto.getPresupuesto());
         proyecto.setFechaInicio(dto.getFechaInicio());
         proyecto.setFechaFin(dto.getFechaFin());
+        proyecto.setEstado(dto.getEstado());
+        proyecto.setDescripcion(dto.getDescripcion());
         return proyecto;
     }
 
@@ -26,7 +28,9 @@ public class ProyectoMapperImpl implements ProyectoMapper {
                 entity.getNombre(),
                 entity.getPresupuesto(),
                 entity.getFechaInicio(),
-                entity.getFechaFin());
+                entity.getFechaFin(),
+                entity.getEstado(),
+                entity.getDescripcion());
     }
 
 }

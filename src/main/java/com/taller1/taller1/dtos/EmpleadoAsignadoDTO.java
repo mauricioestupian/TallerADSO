@@ -11,4 +11,5 @@ public class EmpleadoAsignadoDTO {
     private String nombreEmpleado;
     private LocalDate fechaAsignacion;
     private String observaciones;
+    private String estado; // nuevo campo estado
 }

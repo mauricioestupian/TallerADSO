@@ -29,7 +29,7 @@ public class ProyectoController {
     }
 
     /**
-     * 🟢 POST /api/proyectos
+     * POST /api/proyectos
      * Crea un nuevo proyecto.
      * 
      * @return 201 Created con el proyecto guardado

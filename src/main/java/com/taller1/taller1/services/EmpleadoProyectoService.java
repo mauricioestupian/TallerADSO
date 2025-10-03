@@ -25,4 +25,10 @@ public interface EmpleadoProyectoService {
 
     List<ResultadoAsignacionDTO> asignarEmpleadosNormal(List<EmpleadoProyectoDTO> asignaciones);
 
+    void desvincularEmpleado(Long empleadoId, Long proyectoId);
+
+    List<ResultadoAsignacionDTO> desvincularAsignacionesMasivas(List<EmpleadoProyectoDTO> asignaciones);
+
+    List<ResultadoAsignacionDTO> eliminarAsignacionesMasivas(List<EmpleadoProyectoDTO> asignaciones);
+
 }

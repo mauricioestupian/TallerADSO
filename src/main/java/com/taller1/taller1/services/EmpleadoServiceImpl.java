@@ -147,6 +147,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     public EmpleadoDTO actualizarEmpleado(EmpleadoUpdateDTO dto) {
         Empleado empleado = empleadoRepository.findById(dto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
+        // el
 
         // Actualiza los campos básicos del empleado.
         empleado.setNom(dto.getNombre());

@@ -2,6 +2,7 @@ package com.taller1.taller1.dtos;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,13 @@ public class EmpleadoProyectoDTO {
 
     @Size(max = 500, message = "Las observaciones no pueden superar los 500 caracteres")
     private String observaciones;
+    private String estado; // nuevo campo estado
+
+    @Column(nullable = false, unique = true)
+    private String usuario;
+
+    @Column(nullable = false)
+    private String clave; // Hasheada con BCrypt
 
     // Getters y setters con lombok
 }

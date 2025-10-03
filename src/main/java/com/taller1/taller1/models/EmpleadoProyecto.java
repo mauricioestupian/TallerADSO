@@ -70,4 +70,7 @@ public class EmpleadoProyecto {
     @Size(max = 500)
     @Column(name = "observaciones")
     private String observaciones;
+
+    @Column(name = "estado")
+    private String estado;
 }

@@ -163,4 +163,71 @@ public class EmpleadoProyectoServiceImpl implements EmpleadoProyectoService {
         return resultados;
     }
 
+    @Override
+    public List<ResultadoAsignacionDTO> eliminarAsignacionesMasivas(List<EmpleadoProyectoDTO> asignaciones) {
+        List<ResultadoAsignacionDTO> resultados = new ArrayList<>();
+
+        for (EmpleadoProyectoDTO dto : asignaciones) {
+            ResultadoAsignacionDTO resultado = new ResultadoAsignacionDTO();
+            resultado.setEmpleadoId(dto.getEmpleadoId());
+            resultado.setProyectoId(dto.getProyectoId());
+
+            EmpleadoProyectoId id = new EmpleadoProyectoId(dto.getEmpleadoId(), dto.getProyectoId());
+
+            if (!repository.existsById(id)) {
+                resultado.setEstado("NO_EXISTE");
+                resultado.setMensaje("Asignación no encontrada");
+            } else {
+                repository.deleteById(id);
+                resultado.setEstado("ELIMINADA");
+                resultado.setMensaje("Asignación eliminada correctamente");
+            }
+
+            resultados.add(resultado);
+        }
+
+        return resultados;
+    }
+
+    // desvinculacion individual cambiando estado inactivo
+    @Override
+    public void desvincularEmpleado(Long empleadoId, Long proyectoId) {
+        EmpleadoProyectoId id = new EmpleadoProyectoId(empleadoId, proyectoId);
+        EmpleadoProyecto asignacion = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Asignación no encontrada"));
+
+        asignacion.setEstado("INACTIVO"); // o cualquier valor que definas
+        repository.save(asignacion);
+    }
+
+    @Override
+    public List<ResultadoAsignacionDTO> desvincularAsignacionesMasivas(List<EmpleadoProyectoDTO> asignaciones) {
+        List<ResultadoAsignacionDTO> resultados = new ArrayList<>();
+
+        for (EmpleadoProyectoDTO dto : asignaciones) {
+            ResultadoAsignacionDTO resultado = new ResultadoAsignacionDTO();
+            resultado.setEmpleadoId(dto.getEmpleadoId());
+            resultado.setProyectoId(dto.getProyectoId());
+
+            try {
+                EmpleadoProyectoId id = new EmpleadoProyectoId(dto.getEmpleadoId(), dto.getProyectoId());
+                EmpleadoProyecto asignacion = repository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Asignación no encontrada"));
+
+                // Cambia el estado a INACTIVO (o el valor que definas)
+                asignacion.setEstado("INACTIVO");
+                repository.save(asignacion);
+                resultado.setEstado("DESVINCULADO");
+                resultado.setMensaje("Empleado desvinculado del proyecto");
+            } catch (Exception e) {
+                resultado.setEstado("ERROR");
+                resultado.setMensaje(e.getMessage());
+            }
+
+            resultados.add(resultado);
+        }
+
+        return resultados;
+    }
+
 }

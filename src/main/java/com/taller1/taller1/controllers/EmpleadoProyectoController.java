@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -121,6 +122,22 @@ public class EmpleadoProyectoController {
 
         // Devuelve una respuesta HTTP 204 No Content si la eliminación fue exitosa
         return ResponseEntity.noContent().build();
+    }
+
+    // Eliminación masiva (física)
+    @DeleteMapping("/eliminar-masivo")
+    public ResponseEntity<List<ResultadoAsignacionDTO>> eliminarAsignaciones(
+            @RequestBody List<EmpleadoProyectoDTO> asignaciones) {
+        List<ResultadoAsignacionDTO> resultado = service.eliminarAsignacionesMasivas(asignaciones);
+        return ResponseEntity.ok(resultado);
+    }
+
+    // Desvinculación masiva (lógica)
+    @PutMapping("/desvincular-masivo")
+    public ResponseEntity<List<ResultadoAsignacionDTO>> desvincularAsignaciones(
+            @RequestBody List<EmpleadoProyectoDTO> asignaciones) {
+        List<ResultadoAsignacionDTO> resultado = service.desvincularAsignacionesMasivas(asignaciones);
+        return ResponseEntity.ok(resultado);
     }
 
 }

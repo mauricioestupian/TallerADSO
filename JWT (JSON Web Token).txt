@@ -1,0 +1,137 @@
+ JWT (JSON Web Token) 
+
+paso para implementar JWT (JSON Web Token), usando Spring Security y manteniendo la modularidad en paquetes config, dto, models, repositories, services, controllers.
+
+Objetivo
+Permitir que los usuarios (Roles) inicien sesión con usuario y contraseña, y reciban un token JWT que se usará para autenticar y autorizar sus peticiones.
+
+Estructura general del módulo de autenticación
+
+src/
+└── main/
+    └── java/
+        └── com/taller1/taller1/
+            ├── config/
+            │   └── SeguridadConfiguracion.java
+            │   └── JwtFiltroAutenticacion.java
+            ├── controllers/
+            │   └── AutenticacionController.java
+            ├── dto/
+            │   └── SolicitudInicioSesionDTO.java
+            │   └── RespuestaInicioSesionDTO.java
+            ├── exception/
+            │   └── CredencialesInvalidasException.java
+            ├── mapper/
+            │   └── AutenticacionMapper.java
+            ├── mapperimpl/
+            │   └── AutenticacionMapperImpl.java
+            ├── models/
+            │   └── Empleado.java
+            ├── repositories/
+            │   └── EmpleadoRepository.java
+            ├── services/
+            │   └── AutenticacionService.java
+            │   └── JwtService.java
+            ├── servicesimpl/
+            │   └── AutenticacionServiceImpl.java
+
+
+Paso 1: Berificación de campos de autentificación si no existen Agregar campos de autenticación en tabla de usuarios o crear una para autentificar.
+
+Paso 2: Crear DTOs
+Debe crear un dto que toma los datos y los convierte en Entidad para loguear el usuario y otro DTO para enviar las respuestas 
+
+dto/SolicitudInicioSesionDTO.java
+public class SolicitudInicioSesionDTO {
+    private String usuario;
+    private String clave;
+}
+
+dto/RespuestaInicioSesionDTO.java
+public class RespuestaInicioSesionDTO {
+    private String token;
+    private String nombreCompleto;
+    private String rol;
+}
+
+Paso 3: Crear excepciones
+
+exception/CredencialesInvalidasException.java
+public class CredencialesInvalidasException extends RuntimeException {
+    public CredencialesInvalidasException(String mensaje) {
+        super(mensaje);
+    }
+}
+
+Paso 4.  Mapper e implement mapper
+creamos mapper(intereface)  y mapperImpl(calse) para enviar la data al dto respuesta de autentificación. 
+
+Paso 5. creamos el Optional en EmpleadoRepository
+
+ Optional<Empleado> findByUsername(String username);
+en este caso el campo username hace referencia al campo creado para el usuario de autentificación y hará la búsqueda por este campo en la entidad.
+
+Paso 6. Creamos servicio de JWT
+
+"Revisar "/services/JwtService.java"
+
+Tener presente los import para que funcionen debe tener previamente configurado el pom.xml 
+
+
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.0.2</version> <!-- o la versión compatible con tu proyecto -->
+		</dependency>
+
+		<!-- API principal de JJWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+		<!-- Implementación de JJWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Soporte para JSON con Jackson -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+Crear servicio JWT
+Ses crea servicio que permite manejar los metodos relacionados con el JWT "generartoken, obtener usuario por token, validartoken y expiracion de los mismos. esto se crea directamente en el service.
+
+Paso 7. 
+creamos el AutenticacionService y su implement
+
+dependencias necesarias para JwtService , PasswordEncoder  y AutenticacionMapper 
+<dependency>
+    <groupId>org.bouncycastle</groupId>
+    <artifactId>bcprov-jdk15on</artifactId>
+    <version>1.70</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+
+Paso 10. crea controlador
+/controller/AutenticacionController.java
+
+paso 11 . crear los archivos config
+/config/JwtFiltroAutenticacion.java
+/config/SeguridadConfiguracion.java
+
+NOTA: es muy importante tener presente los diferentes import en cada archivo la lo cual hacer con cuidado el proceso de dependencias en el pom
+

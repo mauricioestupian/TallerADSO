@@ -38,6 +38,9 @@ public class Proyecto {
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
+    private String estado; // Ej: "Activo", "Finalizado", "Suspendido"
+    private String descripcion; // Texto libre sobre el proyecto
+
     @OneToMany(mappedBy = "proyecto")
     private List<EmpleadoProyecto> asignaciones;
 }

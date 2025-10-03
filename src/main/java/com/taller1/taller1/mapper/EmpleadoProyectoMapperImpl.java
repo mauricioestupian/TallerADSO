@@ -53,7 +53,10 @@ public class EmpleadoProyectoMapperImpl implements EmpleadoProyectoMapper {
                 entity.getProyecto().getId(),
                 entity.getProyecto().getNombre(),
                 entity.getFechaAsignacion(),
-                entity.getObservaciones());
+                entity.getEstado(),
+                entity.getObservaciones(),
+                entity.getEmpleado().getUsername(),
+                entity.getEmpleado().getPassword());
     }
 
     @Override
@@ -62,6 +65,7 @@ public class EmpleadoProyectoMapperImpl implements EmpleadoProyectoMapper {
         dto.setNombreProyecto(entity.getProyecto().getNombre());
         dto.setFechaAsignacion(entity.getFechaAsignacion());
         dto.setObservaciones(entity.getObservaciones());
+        dto.setEstado(entity.getEstado());
         return dto;
     }
 
@@ -72,6 +76,7 @@ public class EmpleadoProyectoMapperImpl implements EmpleadoProyectoMapper {
         dto.setNombreEmpleado(entity.getEmpleado().getNom());
         dto.setFechaAsignacion(entity.getFechaAsignacion());
         dto.setObservaciones(entity.getObservaciones());
+        dto.setEstado(entity.getEstado());
         return dto;
     }
 
