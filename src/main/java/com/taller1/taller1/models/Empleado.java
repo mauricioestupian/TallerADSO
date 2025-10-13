@@ -60,7 +60,7 @@ public class Empleado {
         private List<EmpleadoProyecto> asignaciones = new ArrayList<>();
 
         // agregar campos usuario y contraseña para login
-        @Column(nullable = false, unique = true, length = 50)
+        @Column(nullable = false, unique = true, length = 250)
         private String username;
 
         @Column(nullable = false, length = 50)

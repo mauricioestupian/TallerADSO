@@ -1,0 +1,68 @@
+Implementación de Swagger para spering Booot
+ 1. instalar linbrerias en el pom
+
+ <dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version>2.2.0</version>
+</dependency>
+
+2. Configura las rutas en application.properties
+    springdoc.api-docs.path=/api-docs
+    springdoc.swagger-ui.path=/swagger-ui.html
+
+3. Si usas Spring Security, debes permitir explícitamente el acceso a Swagger: 
+    en config/SeguridadConfiguracion.java
+    src/
+    └── main/
+        └── java/
+            └── com/taller1/taller1/
+                ├── config/
+                │   └── SeguridadConfiguracion.java
+
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/api/autenticacion/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/v3/api-docs.yaml"
+            ).permitAll()
+        .anyRequest().authenticated()
+        )
+4. Personaliza la documentación con anotaciones
+    En tus controladores:
+    @Operation(summary = "Inicia sesión con usuario y contraseña")
+    @PostMapping("/iniciar-sesion")
+    public ResponseEntity<RespuestaLoginDTO> iniciarSesion(@RequestBody LoginDto solicitud) {
+        ...
+    }
+
+5. Accede a Swagger UI
+    Una vez que tu app esté corriendo, abre:
+    http://localhost:8080/swagger-ui.html
+
+    Ahí verás todos tus endpoints, modelos y podrás probarlos directamente desde el navegador.
+
+6. Inconvenientes:
+    Verifica que el endpoint /v3/api-docs esté disponible
+    Abre en tu navegador:
+        http://localhost:8080/v3/api-docs
+
+        Si ves un JSON con tu API, Swagger debería funcionar. Si da 404 o error, el problema está en la configuración
+        
+        Permite acceso público en Spring Security
+        En tu clase SeguridadConfiguracion.java, asegúrate de incluir:
+        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
+requestMatchers(
+                                "/api/autenticacion/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/api-docs",
+                                "/api-docs/**",
+                                "/api-docs/swagger-config",
+                                "/swagger-config/**")kbnmbm

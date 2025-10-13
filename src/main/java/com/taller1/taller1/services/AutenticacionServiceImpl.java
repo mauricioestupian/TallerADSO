@@ -31,7 +31,7 @@ public class AutenticacionServiceImpl implements AutenticacionService {
 
     @Override
     public RespuestaLoginDTO iniciarSesion(LoginDto solicitud) {
-        Empleado empleado = empleadoRepo.findByUsuario(solicitud.getUsername())
+        Empleado empleado = empleadoRepo.findByUsername(solicitud.getUsername())
                 .orElseThrow(() -> new CredencialesInvalidasException("Usuario no encontrado"));
 
         if (!codificador.matches(solicitud.getPassword(), empleado.getPassword())) {

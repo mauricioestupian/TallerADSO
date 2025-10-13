@@ -15,12 +15,12 @@ import com.taller1.taller1.services.JwtService;
 
 @Configuration
 @EnableWebSecurity
-public class SeguridadConfiguracion {
+public class SecurityConfig {
 
-    private final JwtService jwtService;
-    private final EmpleadoRepository empleadoRepo;
+    private JwtService jwtService = new JwtService();
+    private EmpleadoRepository empleadoRepo = null;
 
-    public SeguridadConfiguracion(JwtService jwtService, EmpleadoRepository empleadoRepo) {
+    public SecurityConfig(JwtService jwtService, EmpleadoRepository empleadoRepo) {
         this.jwtService = jwtService;
         this.empleadoRepo = empleadoRepo;
     }
@@ -30,7 +30,14 @@ public class SeguridadConfiguracion {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/autenticacion/**").permitAll()
+                        .requestMatchers(
+                                "/api/autenticacion/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFiltroAutenticacion(jwtService, empleadoRepo),
@@ -42,4 +49,5 @@ public class SeguridadConfiguracion {
     public PasswordEncoder codificador() {
         return new BCryptPasswordEncoder();
     }
+
 }

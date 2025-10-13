@@ -135,3 +135,8 @@ paso 11 . crear los archivos config
 
 NOTA: es muy importante tener presente los diferentes import en cada archivo la lo cual hacer con cuidado el proceso de dependencias en el pom
 
+Hasta este punto si todo va bien al tratar de acceder a un endpoint debe salir Status: 403 Forbidden.
+
+ Spring Security + JWT están funcionando correctamente: la ruta está protegida y el filtro está bloqueando el acceso no autorizado
+
+
