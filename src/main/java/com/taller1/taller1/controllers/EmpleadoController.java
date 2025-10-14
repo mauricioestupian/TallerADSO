@@ -19,6 +19,7 @@ import com.taller1.taller1.dtos.EmpleadoDTO;
 import com.taller1.taller1.dtos.EmpleadoUpdateDTO;
 import com.taller1.taller1.services.EmpleadoService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -56,6 +57,7 @@ public class EmpleadoController {
     }
 
     // Obtener por ID
+    @Operation(summary = "Requiere Inicio sesión con usuario y contraseña")
     @GetMapping("/{id}")
     public ResponseEntity<EmpleadoDTO> obtenerPorId(@PathVariable Long id) {
         EmpleadoDTO empleado = empleadoService.buscarPorId(id);
@@ -63,6 +65,7 @@ public class EmpleadoController {
     }
 
     // Listar todos
+
     @GetMapping
     public ResponseEntity<List<EmpleadoDTO>> listarTodos() {
         List<EmpleadoDTO> empleados = empleadoService.listarTodos();

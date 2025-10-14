@@ -32,6 +32,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/autenticacion/**",
+                                "/api/cargos", // Teninedo en cuenta que los cargos no requieren autenficacion esta es
+                                // la manera derutas permitidas sin segurirdad
+                                "/api/oficinas/**", // lo mismo pero como oficina contiene endpoints adicionales es
+                                // necesario /**
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs",

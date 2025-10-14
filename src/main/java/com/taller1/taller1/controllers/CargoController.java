@@ -11,6 +11,8 @@ import com.taller1.taller1.dtos.CargoDto;
 import com.taller1.taller1.models.Cargo;
 import com.taller1.taller1.repositoryes.CargoRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/cargos")
 public class CargoController {
@@ -28,6 +30,7 @@ public class CargoController {
         }).toList();
     }
 
+    @Operation(summary = "consulta permitida sin autentificación")
     @GetMapping
     public List<Cargo> getMethodName() {
         return cargoRepo.findAll();

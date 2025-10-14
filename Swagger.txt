@@ -25,9 +25,10 @@ Implementación de Swagger para spering Booot
                 "/api/autenticacion/**",
                 "/swagger-ui.html",
                 "/swagger-ui/**",
+                "/v3/api-docs",
                 "/v3/api-docs/**",
-                "/v3/api-docs.yaml"
-            ).permitAll()
+                "/swagger-resources/**")
+            .permitAll()
         .anyRequest().authenticated()
         )
 4. Personaliza la documentación con anotaciones
@@ -54,15 +55,3 @@ Implementación de Swagger para spering Booot
         Permite acceso público en Spring Security
         En tu clase SeguridadConfiguracion.java, asegúrate de incluir:
         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-
-requestMatchers(
-                                "/api/autenticacion/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/api-docs",
-                                "/api-docs/**",
-                                "/api-docs/swagger-config",
-                                "/swagger-config/**")kbnmbm
