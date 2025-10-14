@@ -12,13 +12,13 @@ Implementación de Swagger para spering Booot
     springdoc.swagger-ui.path=/swagger-ui.html
 
 3. Si usas Spring Security, debes permitir explícitamente el acceso a Swagger: 
-    en config/SeguridadConfiguracion.java
+    en config/SecurityConfig.java
     src/
     └── main/
         └── java/
             └── com/taller1/taller1/
                 ├── config/
-                │   └── SeguridadConfiguracion.java
+                │   └── SecurityConfig.java
 
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
@@ -53,5 +53,5 @@ Implementación de Swagger para spering Booot
         Si ves un JSON con tu API, Swagger debería funcionar. Si da 404 o error, el problema está en la configuración
         
         Permite acceso público en Spring Security
-        En tu clase SeguridadConfiguracion.java, asegúrate de incluir:
+        En tu clase SecurityConfig.java, asegúrate de incluir:
         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
