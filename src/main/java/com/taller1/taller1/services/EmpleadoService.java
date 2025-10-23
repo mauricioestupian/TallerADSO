@@ -2,16 +2,16 @@ package com.taller1.taller1.services;
 
 import java.util.List;
 
-import com.taller1.taller1.dtos.EmpleadoCreateDTO;
+import com.taller1.taller1.dtos.EmpleadoCrearDTO;
 import com.taller1.taller1.dtos.EmpleadoDTO;
 import com.taller1.taller1.dtos.EmpleadoUpdateDTO;
 
 public interface EmpleadoService {
-    EmpleadoDTO guardar(EmpleadoCreateDTO dto);
+    List<EmpleadoDTO> listarTodos();
 
     EmpleadoDTO buscarPorId(Long id);
 
-    List<EmpleadoDTO> listarTodos();
+    EmpleadoDTO guardar(EmpleadoCrearDTO dto);
 
     void eliminar(Long id);
 

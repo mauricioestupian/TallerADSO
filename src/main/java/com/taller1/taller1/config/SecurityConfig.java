@@ -17,8 +17,8 @@ import com.taller1.taller1.services.JwtService;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private JwtService jwtService = new JwtService();
-    private EmpleadoRepository empleadoRepo = null;
+    private JwtService jwtService;
+    private EmpleadoRepository empleadoRepo;
 
     public SecurityConfig(JwtService jwtService, EmpleadoRepository empleadoRepo) {
         this.jwtService = jwtService;
@@ -32,16 +32,24 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/autenticacion/**",
-                                "/api/cargos", // Teninedo en cuenta que los cargos no requieren autenficacion esta es
-                                // la manera derutas permitidas sin segurirdad
+                                "/api/autenticacion/iniciar-sesion",
+                                "/api/cargos/**", // Teninedo en cuenta que los cargos no requieren autenficacion esta
+                                                  // es
+                                // la manera de rutas permitidas sin segurirdad
                                 "/api/oficinas/**", // lo mismo pero como oficina contiene endpoints adicionales es
                                 // necesario /**
+                                "/api/cargos",
+                                "/api/debug/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**")
                         .permitAll()
+                        // a continuacion se relacionan las urls privadas y roles con acceso a las
+                        // mismas
+                        .requestMatchers("/api/empleados/**").hasAuthority("ROLE_ANALISTA_DE_DATOS")
+                        .requestMatchers("/api/proyectos/**").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFiltroAutenticacion(jwtService, empleadoRepo),
@@ -50,7 +58,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder codificador() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

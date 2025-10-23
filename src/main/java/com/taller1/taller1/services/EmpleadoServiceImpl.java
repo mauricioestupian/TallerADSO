@@ -3,10 +3,11 @@ package com.taller1.taller1.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.taller1.taller1.dtos.EmpleadoCreateDTO;
+import com.taller1.taller1.dtos.EmpleadoCrearDTO;
 import com.taller1.taller1.dtos.EmpleadoDTO;
 import com.taller1.taller1.dtos.EmpleadoUpdateDTO;
 import com.taller1.taller1.mapper.EmpleadoMapper;
@@ -42,6 +43,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     // Repositorio para recuperar la entidad Oficina desde la base de datos.
     private final OficinaRepository oficinaRepository;
 
+    // Repositorio para codificación del pasword
+    private final PasswordEncoder passwordEncoder;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -49,12 +53,14 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     // dependencias necesarias.
     public EmpleadoServiceImpl(EmpleadoRepository empleadoRepository,
             EmpleadoProyectoRepository empleadoProyectoRepository,
-            EmpleadoMapper empleadoMapper, CargoRepository cargoRepository, OficinaRepository oficinaRepository) {
+            EmpleadoMapper empleadoMapper, CargoRepository cargoRepository, OficinaRepository oficinaRepository,
+            PasswordEncoder passwordEncoder) {
         this.empleadoRepository = empleadoRepository;
         this.empleadoProyectoRepository = empleadoProyectoRepository;
         this.empleadoMapper = empleadoMapper;
         this.cargoRepository = cargoRepository;
         this.oficinaRepository = oficinaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -66,8 +72,13 @@ public class EmpleadoServiceImpl implements EmpleadoService {
      */
     @Override
     @Transactional
-    public EmpleadoDTO guardar(EmpleadoCreateDTO dto) {
+    public EmpleadoDTO guardar(EmpleadoCrearDTO dto) {
         Empleado empleado = empleadoMapper.toEmpleado(dto);// convierte DTO a entidad
+
+        // Codificar la contraseña antes de guardar
+        String passwordCodificada = passwordEncoder.encode(dto.getPassword());
+        empleado.setPassword(passwordCodificada);
+
         Empleado guardado = empleadoRepository.save(empleado);// manda a guardar la entidad
         return empleadoMapper.toDTO(guardado);
     }

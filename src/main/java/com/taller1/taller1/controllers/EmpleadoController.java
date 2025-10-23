@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.taller1.taller1.dtos.EmpleadoCreateDTO;
+import com.taller1.taller1.dtos.EmpleadoCrearDTO;
 import com.taller1.taller1.dtos.EmpleadoDTO;
 import com.taller1.taller1.dtos.EmpleadoUpdateDTO;
 import com.taller1.taller1.services.EmpleadoService;
@@ -34,7 +34,7 @@ public class EmpleadoController {
 
     // Crear empleado
     @PostMapping
-    public ResponseEntity<?> crear(@Valid @RequestBody EmpleadoCreateDTO dto) {
+    public ResponseEntity<?> crear(@Valid @RequestBody EmpleadoCrearDTO dto) {
         try {
             EmpleadoDTO creado = empleadoService.guardar(dto);
             return ResponseEntity.status(HttpStatus.CREATED)

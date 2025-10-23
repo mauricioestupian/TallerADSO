@@ -2,7 +2,7 @@ package com.taller1.taller1.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.taller1.taller1.dtos.EmpleadoCreateDTO;
+import com.taller1.taller1.dtos.EmpleadoCrearDTO;
 import com.taller1.taller1.dtos.EmpleadoDTO;
 import com.taller1.taller1.models.Cargo;
 import com.taller1.taller1.models.Empleado;
@@ -36,7 +36,7 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
      * para evitar errores de Hibernate por referencias transientes.
      */
     @Override
-    public Empleado toEmpleado(EmpleadoCreateDTO dto) {
+    public Empleado toEmpleado(EmpleadoCrearDTO dto) {
         if (dto == null)
             return null;
 
@@ -47,6 +47,11 @@ public class EmpleadoMapperImpl implements EmpleadoMapper {
         empleado.setApe(dto.getApellido());
         empleado.setDir(dto.getDireccion());
         empleado.setTel(dto.getTelefono());
+        // Asignar username directamente
+        empleado.setUsername(dto.getUsername());
+
+        // Asignar password sin codificar (se codifica en el servicio)
+        empleado.setPassword(dto.getPassword());
 
         // Campo obligatorio: se recupera desde el repositorio cargoRepository para que
         // esté gestionado por Hibernate

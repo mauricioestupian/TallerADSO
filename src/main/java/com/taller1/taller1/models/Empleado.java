@@ -45,25 +45,25 @@ public class Empleado {
 
         private String tel;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "cargo_id", nullable = false, foreignKey = @ForeignKey(name = "FK_empleado_cargo"))
         private Cargo cargo;
 
-        @OneToOne(fetch = FetchType.LAZY)
+        @OneToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "oficina_id", foreignKey = @ForeignKey(name = "FK_empleado_oficina"))
         private Oficina oficina;
 
         // un Empleado puede estar en varios proyectos es decir tener muchas
         // asignaciones
 
-        @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL, orphanRemoval = true)
+        @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
         private List<EmpleadoProyecto> asignaciones = new ArrayList<>();
 
         // agregar campos usuario y contraseña para login
         @Column(nullable = false, unique = true, length = 250)
         private String username;
 
-        @Column(nullable = false, length = 50)
+        @Column(nullable = false, length = 250)
         private String password;
 
 }
