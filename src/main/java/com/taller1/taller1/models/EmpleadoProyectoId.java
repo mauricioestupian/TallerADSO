@@ -20,21 +20,5 @@ public class EmpleadoProyectoId implements Serializable {
     // para que JPA pueda comparar correctamente las claves compuestas
     // y manejar las entidades de manera adecuada
     // Lombok genera estos metodos automaticamente
-    /*
-     * @Override
-     * public boolean equals(Object o) {
-     * if (this == o)
-     * return true;
-     * if (!(o instanceof EmpleadoProyectoId))
-     * return false;
-     * EmpleadoProyectoId that = (EmpleadoProyectoId) o;
-     * return Objects.equals(empleadoId, that.empleadoId) &&
-     * Objects.equals(proyectoId, that.proyectoId);
-     * }
-     * 
-     * @Override
-     * public int hashCode() {
-     * return Objects.hash(empleadoId, proyectoId);
-     * }
-     */
+
 }
